@@ -1,0 +1,51 @@
+﻿@model StudentManagementSystem.Models.Student
+
+<h1 class="text-center">Add New Student</h1>
+
+<form asp-action="Create" method="post" class="form-control">
+
+    <table class="table table-bordered">
+
+        <tr>
+            <th><label asp-for="Name"></label></th>
+            <td><input asp-for="Name" class="form-control"/><span asp-validation-for="Name" style="color:red;"></span></td>
+        </tr>
+        
+        <tr>
+            <th><label asp-for="RollNo"></label></th>
+            <td><input asp-for="RollNo" class="form-control"/><span asp-validation-for="RollNo" style="color:red;"></span></td>
+        </tr>
+
+        <tr>
+            <th><label asp-for="Class"></label></th>
+            <td><input asp-for="Class" class="form-control"/><span asp-validation-for="Class" style="color:red;"></span></td>
+        </tr>
+
+        <tr>
+            <th><label asp-for="Email"></label></th>
+            <td><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" style="color:red;"></span></td>
+        </tr>
+
+        <tr>
+            <th><label asp-for="Phone"></label></th>
+            <td><input asp-for="Phone" class="form-control" /><span asp-validation-for="Phone" style="color:red;"></span></td>
+        </tr>
+
+        <tr>
+            <td colspan="2" class="text-center">
+                <button type="submit" class="btn btn-warning">Save</button>
+                <a asp-action="Index" class="btn btn-success">Cancel</a>
+            </td>
+        </tr>
+
+            
+    </table>
+
+</form>
+
+            @section Scripts
+            {
+@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+            }
