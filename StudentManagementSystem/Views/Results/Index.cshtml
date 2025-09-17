@@ -1,0 +1,36 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.StudentResult>
+
+<h2>All Results</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Student Name</th>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Max Marks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model)
+        {
+            <tr>
+                <td>@result.Id</td>
+                <td>@result.Student?.Name</td>
+                <td>@result.Subject</td>
+                <td>@result.Marks</td>
+                <td>@result.MaxMarks</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@result.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@result.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Add New Result</a>
+</p>

@@ -24,6 +24,6 @@ namespace StudentManagementSystem.Models
 
 		public int RollNo { get; set; }
 
-
+		public ICollection<StudentResult> Results { get; set; } = new List<StudentResult>();
 	}
 }

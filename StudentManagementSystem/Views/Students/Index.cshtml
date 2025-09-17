@@ -1,55 +1,78 @@
 ﻿@model List<StudentManagementSystem.Models.Student>
 
-<h1 class="text-center"><a asp-action="Index" style="text-decoration:none;"><font color="black">Students List</font></a></h1>
+@{
+    ViewData["Title"] = "Students List";
+}
+<div>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #dae2f8, #d6a4a4);
+        }
+    </style>
+<!-- Full page gradient background -->
+    <div class="container-fluid p-0" style="min-height:100vh; background: linear-gradient(to right, #dae2f8, #d6a4a4); /* W3C">
 
-    <form asp-action="Index" method="get" class="text-center mb-3">
-        <input type="text" name="search" placeholder="Search By Name, Email Or Phone" style="width:300px; display:inline;" value="@Context.Request.Query["search"]" />
-        <button type="submit" class="btn btn-warning">Search</button>
-    </form>
+    <!-- Header -->
+    <div class="text-center py-5">
+        <h1 style="font-weight:bold; font-size:3rem; color:gold; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);">
+            Student Management System
+        </h1>
+        <p class="text-white-100 fs-5">Manage all students and their results efficiently</p>
+    </div>
 
-    <table class="table table-bordered">
+    <!-- Main Content -->
+        <div class="container bg-light shadow rounded p-4 mb-5" style="background: linear-gradient(to right, #5B86E5, #36D1DC);">
 
-        <thead>
-            <tr>
-                <th>S.No</th>
-            <th><a name="sort" asp-action="Index" asp-route-SortOrder="@ViewBag.NameSort" asp-route-search="@Context.Request.Query["search"]" style="text-decoration:none;" ><font color="black">Name</font></a></th>
-                <th>Roll No</th>
-                <th>Class</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+        <!-- Search Form -->
+        <form asp-action="Index" method="get" class="d-flex justify-content-center mb-4">
+            <input type="text" name="search" class="form-control me-2 shadow-sm" placeholder="Search By Name, Email Or Phone" style="max-width:400px;" value="@Context.Request.Query["search"]" />
+            <button type="submit" class="btn btn-primary fw-bold shadow-sm" style="background: linear-gradient(to right, #6a11cb, #2575fc); border:none;">Search</button>
+        </form>
 
-        <tbody>
-
-        @{
-            int sNo = 1;
+        <!-- Students Cards -->
+        <div class="row g-4">
             @foreach (var student in Model)
             {
-            <tr>
+                <div class="col-md-4 col-lg-3">
+                    <div class="card h-100 shadow-sm border-0" style="border-radius:15px; transition: transform 0.2s; background: linear-gradient(to right, #ffecd2, #fcb69f);">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">@student.Name</h5>
+                            <p class="card-text mb-1"><strong>Roll No:</strong> @student.RollNo</p>
+                            <p class="card-text mb-1"><strong>Class:</strong> @student.Class</p>
+                            <p class="card-text mb-1"><strong>Email:</strong> @student.Email</p>
+                            <p class="card-text mb-3"><strong>Phone:</strong> @student.Phone</p>
 
-                <td>@sNo</td>
-                <td>@student.Name</td>
-                <td>@student.RollNo</td>
-                <td>@student.Class</td>
-                <td>@student.Email</td>
-                <td>@student.Phone</td>
-                <td>
-
-                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@student.Id">Edit</a>
-                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@student.Id">Delete</a>
-
-                </td>
-
-            </tr>
-             sNo++;
-        }
-        
+                            <div class="d-flex flex-wrap gap-2">
+                                <a asp-controller="Results" asp-action="Index" asp-route-studentId="@student.Id" class="btn btn-info btn-sm fw-bold">Results</a>
+                                <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-warning btn-sm fw-bold">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@student.Id" class="btn btn-danger btn-sm fw-bold">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
+        </div>
 
-    </table>
-  <p>
-      <a asp-action="Create" class="btn btn-success">Create New Contact</a>
-  </p>
+        <!-- Create Button -->
+        <div class="mt-5 text-center">
+            <a asp-action="Create" class="btn btn-success btn-lg fw-bold shadow-sm" style="background: linear-gradient(to right, #43e97b, #38f9d7); border:none;">
+                Add New Student
+            </a>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<!-- Bootstrap JS -->
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Card hover effect
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => card.style.transform = 'scale(1.05)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+    </script>
+}

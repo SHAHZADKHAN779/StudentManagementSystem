@@ -1,0 +1,47 @@
+﻿@model StudentManagementSystem.Models.Student
+
+<h3>Results</h3>
+<p>
+    <a asp-controller="Results" asp-action="Create" asp-route-studentId="@Model.Id" class="btn btn-success">Add Result</a>
+</p>
+
+@if (Model.Results != null && Model.Results.Any())
+{
+    <table class="table table-bordered">
+        <thead><tr><th>Subject</th><th>Marks</th><th>Max</th><th>%</th><th>Action</th></tr></thead>
+        <tbody>
+            @foreach (var r in Model.Results)
+            {
+                var percent = r.MaxMarks > 0 ? Math.Round((double)r.Marks / r.MaxMarks * 100, 2) : 0;
+                <tr>
+                    <td>@r.Subject</td>
+                    <td>@r.Marks</td>
+                    <td>@r.MaxMarks</td>
+                    <td>@percent %</td>
+                    <td>
+                        <a asp-controller="Results" asp-action="Edit" asp-route-id="@r.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-controller="Results" asp-action="Delete" asp-route-id="@r.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            @{
+                var total = Model.Results.Sum(x => x.Marks);
+                var maxTotal = Model.Results.Sum(x => x.MaxMarks);
+                var overallPercent = maxTotal > 0 ? Math.Round((double)total / maxTotal * 100, 2) : 0;
+            }
+            <tr>
+                <th>Total</th>
+                <th>@total</th>
+                <th>@maxTotal</th>
+                <th>@overallPercent %</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+}
+else
+{
+    <p>No results yet for this student.</p>
+}

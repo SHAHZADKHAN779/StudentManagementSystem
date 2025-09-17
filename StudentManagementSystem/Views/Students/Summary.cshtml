@@ -1,0 +1,29 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.StudentSummaryViewModel>
+
+<h2>Students Summary</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Subjects</th>
+            <th>Total Marks</th>
+            <th>Max Marks</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Id</td>
+                <td>@s.Name</td>
+                <td>@s.SubjectsCount</td>
+                <td>@s.TotalMarks</td>
+                <td>@s.MaxMarks</td>
+                <td>@s.Percentage %</td>
+            </tr>
+        }
+    </tbody>
+</table>

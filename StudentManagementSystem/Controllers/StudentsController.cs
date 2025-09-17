@@ -1,6 +1,7 @@
-﻿using StudentManagementSystem.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StudentManagementSystem.Data;
 using StudentManagementSystem.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace StudentManagementSystem.Controllers
 {
@@ -121,5 +122,38 @@ namespace StudentManagementSystem.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 		}
+
+		public IActionResult Details(int id)
+		{
+			var details = _context.Students.Find(id);
+			if (details == null)
+			{
+				return NotFound();
+			}
+			else
+			{
+				return View(details);
+			}
+		}
+
+		public async Task<IActionResult> Summary()
+		{
+			var students = await _context.Students.Include(s => s.Results).ToListAsync();
+
+			var model = students.Select(s => new StudentSummaryViewModel
+			{
+				Id = s.Id,
+				Name = s.Name,
+				SubjectsCount = s.Results.Count,
+				TotalMarks = s.Results.Sum(r => r.Marks),
+				MaxMarks = s.Results.Sum(r => r.MaxMarks),
+				Percentage = (s.Results.Sum(r => r.MaxMarks) > 0) ?
+					Math.Round((double)s.Results.Sum(r => r.Marks) / s.Results.Sum(r => r.MaxMarks) * 100, 2) : 0
+			}).ToList();
+
+			return View(model);
+		}
+
+
 	}
 }
